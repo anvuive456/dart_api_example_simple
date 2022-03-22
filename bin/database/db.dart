@@ -1,12 +1,19 @@
 import 'package:postgres/postgres.dart';
 
 class DB {
+  static final DB _singleton = DB._internal();
+
+  factory DB() {
+    return _singleton;
+  }
+
+  DB._internal();
 
   late PostgreSQLConnection _connection;
 
   static Future<DB> connect(Map<String, dynamic> env) async {
 
-    int _port = 5432;
+    int _port = int.parse(env['DB_PORT']);
     String _host = env['DB_HOST'];
     String _user = env['DB_USER'];
     String _pass = env['DB_PASS'];
